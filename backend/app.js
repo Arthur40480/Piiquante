@@ -3,6 +3,15 @@
 // require = C'est la commande pour importer le package express de node.
 const express = require('express');
 
+// require = C'est la commande pour importer le package mongoose.
+const mongoose = require('mongoose');
+
+mongoose.connect('mongodb+srv://Arthur21051993:Papamaman21051993@cluster0.srnkobz.mongodb.net/?retryWrites=true&w=majority',
+  { useNewUrlParser: true,
+    useUnifiedTopology: true })
+  .then(() => console.log('Connexion à MongoDB réussie !'))
+  .catch(() => console.log('Connexion à MongoDB échouée !'));
+
 /** déclaration de la constante app qui sera notre application
 On apelle la méthode express() pour créer une application express
 */
@@ -46,7 +55,7 @@ app.use((req, res, next) => {
     next();
 });
 app.use((req, res) => {
-    console.log("Réponse envoyée avec succès !")
+    console.log("Réponse envoyée avec succès !");
 });
 
 /**
