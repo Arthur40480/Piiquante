@@ -1,21 +1,22 @@
 // #app.js = fichier qui contient l'application
 
-// require = C'est la commande pour importer le package express de node.
+// require pour importer le package express de node.
 const express = require('express');
-
-// require = C'est la commande pour importer le package mongoose.
-const mongoose = require('mongoose');
-
-mongoose.connect('mongodb+srv://Arthur21051993:Papamaman21051993@cluster0.srnkobz.mongodb.net/?retryWrites=true&w=majority',
-  { useNewUrlParser: true,
-    useUnifiedTopology: true })
-  .then(() => console.log('Connexion à MongoDB réussie !'))
-  .catch(() => console.log('Connexion à MongoDB échouée !'));
 
 /** déclaration de la constante app qui sera notre application
 On apelle la méthode express() pour créer une application express
 */
 const app = express();
+
+// require pour importer le routeur
+const saucesRoutes = require('./routes/sauce');
+
+// Utilisation de la méthode 'mongoose.connect' pour se connecter à MongoDB.
+mongoose.connect('mongodb+srv://Arthur21051993:Papamaman21051993@cluster0.srnkobz.mongodb.net/?retryWrites=true&w=majority',
+  { useNewUrlParser: true,
+    useUnifiedTopology: true })
+  .then(() => console.log('Connexion à MongoDB réussie !'))
+  .catch(() => console.log('Connexion à MongoDB échouée !'));
 
 /**
  * Middleware :
@@ -41,22 +42,8 @@ app.use((req, res, next) => {
     next();
   });
 
-// fonction "next", elle permet de renvoyer à la prochaine fonction l'exécution du serveur
-app.use((req, res, next) => {
-    console.log('Requête reçue !');
-    next();
-});
-app.use((req, res, next) => {
-    res.status(201);
-    next();
-});
-app.use((req, res, next) => {
-    res.json({ message: 'Votre requête à bien été reçue !'});
-    next();
-});
-app.use((req, res) => {
-    console.log("Réponse envoyée avec succès !");
-});
+  // Pour cette route la '/api/sauces' on utilise le routeur saucesRoutes
+app.use('/api/sauces', saucesRoutes);
 
 /**
  * l'instruction export est utilisée dans les modules Javascript pour exporter 
