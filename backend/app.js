@@ -8,8 +8,9 @@ On apelle la méthode express() pour créer une application express
 */
 const app = express();
 
-// require pour importer le routeur
+// require pour importer le routeur ( des sauces, et des users)
 const saucesRoutes = require('./routes/sauce');
+const usersRoutes = require('./routes/user');
 
 // Utilisation de la méthode 'mongoose.connect' pour se connecter à MongoDB.
 mongoose.connect('mongodb+srv://Arthur21051993:Papamaman21051993@cluster0.srnkobz.mongodb.net/?retryWrites=true&w=majority',
@@ -42,8 +43,11 @@ app.use((req, res, next) => {
     next();
   });
 
-  // Pour cette route la '/api/sauces' on utilise le routeur saucesRoutes
+// Pour cette route la '/api/sauces' on utilise le routeur saucesRoutes
 app.use('/api/sauces', saucesRoutes);
+
+// Pour cette route la '/api/auth' on utilise le routeur usersRoutes
+app.use('/api/auth', usersRoutes);
 
 /**
  * l'instruction export est utilisée dans les modules Javascript pour exporter 
