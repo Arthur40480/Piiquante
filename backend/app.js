@@ -8,6 +8,9 @@ On apelle la méthode express() pour créer une application express
 */
 const app = express();
 
+// require pour importer le package mongoose.
+const mongoose = require('mongoose');
+
 // require pour importer le routeur ( des sauces, et des users)
 const saucesRoutes = require('./routes/sauce');
 const usersRoutes = require('./routes/user');
