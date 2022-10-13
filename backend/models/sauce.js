@@ -37,4 +37,4 @@ const schemaSauces = mongoose.Schema({
  * - 1er argument c'est le nom du model,
  * - 2ème argument c'est le schéma à utiliser
  */
-module.exports = mongoose.model( 'Sauces' , schemaSauces);
+module.exports = mongoose.model( 'Sauce' , schemaSauces);

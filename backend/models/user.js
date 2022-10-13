@@ -30,4 +30,4 @@ schemaUsers.plugin(uniqueValidator);
  * - 1er argument c'est le nom du model,
  * - 2ème argument c'est le schéma à utiliser
  */
- module.exports = mongoose.model( 'Users' , schemaUsers);
+ module.exports = mongoose.model( 'User' , schemaUsers);

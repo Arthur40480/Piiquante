@@ -13,7 +13,13 @@ const router = express.Router();
 // require pour importer les fonctions de notre controllers.    
 const usersCtrl = require('../controllers/user');
 
-router.post('/signup', usersCtrl.signup); // Route POST pour créer un compte.
+// require pour importer le middleware password.
+const password = require('../middleware/password');
+
+// require pour importer le middleware email.
+const email = require('../middleware/email');
+
+router.post('/signup', password, email, usersCtrl.signup); // Route POST pour créer un compte.
 router.post('/login', usersCtrl.login); // Route POST pour se connecter.
 
 /**

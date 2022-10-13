@@ -11,6 +11,8 @@ const app = express();
 // require pour importer le package mongoose.
 const mongoose = require('mongoose');
 
+const path = require('path');
+
 // require pour importer le routeur ( des sauces, et des users)
 const saucesRoutes = require('./routes/sauce');
 const usersRoutes = require('./routes/user');
@@ -52,6 +54,7 @@ app.use('/api/sauces', saucesRoutes);
 // Pour cette route la '/api/auth' on utilise le routeur usersRoutes
 app.use('/api/auth', usersRoutes);
 
+app.use('/images', express.static(path.join(__dirname, 'images')));
 /**
  * l'instruction export est utilisée dans les modules Javascript pour exporter 
  * les fonctions, objets ou valeurs primitives d'un module pour pouvoir être 

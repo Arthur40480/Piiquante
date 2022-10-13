@@ -49,7 +49,7 @@ exports.login = (req, res, next) => {
                         token: jwt.sign( // La fonction '.sign()' de jsonwebtoken utilise une clé secrète pour chiffrer un token qui peut contenir un payload personnalisé et avoir une validité limitée.
                            { userId: user._id }, // 1er argument: payload, les données que l'on veux encodées = user._id.
                            'RANDOM_TOKEN_SECRET', // 2ème argument: La clé secrète pour l'encodage.
-                           { expiresIn: '24h'} // 3ème argument: argument de configuration, on applique une expiration de 24h pour notre token.
+                           { expiresIn: '72h'} // 3ème argument: argument de configuration, on applique une expiration de 24h pour notre token.
                         )
                     });
                 })
