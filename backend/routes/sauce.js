@@ -24,6 +24,7 @@ router.put('/:id', multer, saucesCtrl.modifySauce); // Route PUT pour modifier u
 router.delete('/:id', saucesCtrl.deleteSauce); // Route DELETE pour supprimer une sauce.
 router.get('/:id', saucesCtrl.readOneSauce); // Route GET pour la récupérer une sauce. 
 router.get('/', saucesCtrl.listAllSauce); // Route GET pour récupérer toutes les sauces.
+router.post("/:id/like", saucesCtrl.sauceLikes); // Route poste pour enregistrer l'ajout ou le retrait d'un like sur une sauce.
 
 /**
  * A l'aide de la méthode 'module.exports' ont viens exporter notre routeur

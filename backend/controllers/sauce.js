@@ -60,3 +60,73 @@ exports.listAllSauce = (req, res, next) => {
     .then(sauces => res.status(201).json(sauces))
     .catch(error => res.status(400).json({error}));
 };
+
+// Like & Dislike d'une sauce
+exports.sauceLikes = (req, res, next) => {
+    let sauceId = req.params.id
+    let userId = req.body.userId // La propriété req.body contient des paires clé-valeur de données soumises dans le corps de la requête.
+    let like = req.body.like
+    
+    switch(like) { // L'instruction switch évalue une expression et, selon le résultat obtenu et le cas associé, exécute les instructions correspondantes.
+    // Si like = 1, l'utilisateur aime (= likes)
+        case 1 : 
+        Sauce.updateOne(
+            { _id: sauceId }, 
+            {
+                $push : { usersLiked: userId }, // L’opérateur $push permet de rajouter un nouvel élément à un tableau.
+                $inc : { likes: +1 } // $inc permet de rajouter une valeur à une donnée numérique. 
+            }
+        )  
+            .then(() => res.status(200).json({message: "J'aime"}))
+            .catch((error) => res.status(400).json({ error }));
+
+    break;
+
+    // Si like = 0, l'utilisateur annule son like ou son dislike
+        case 0 :
+        Sauce.findOne(
+            { _id: sauceId }
+        )
+        .then((sauce) => {
+            if (sauce.usersLiked.includes(userId)) {
+                Sauce.updateOne(
+                    { _id: sauceId },
+                    {
+                        $pull: { usersLiked: userId },
+                        $inc: { likes: -1 }
+                    }
+                )
+                    .then(() => res.status(200).json({message: "Unliked"}))
+                    .catch((error) => res.status(400).json({ error }))
+            }
+            if (sauce.usersDisliked.includes(userId)) {
+                Sauce.updateOne(
+                    { _id: sauceId },
+                    {
+                        $pull: { usersDisliked: userId },
+                        $inc: { dislikes: -1 }
+                    }
+                )
+                .then(() => res.status(200).json({message: "Undisliked"}))
+                .catch((error) => res.status(400).json({ error }))
+            }
+        })
+        .catch((error) => res.status(404).json({ error }))
+    
+    break;
+  
+// Si like = -1, l'utilisateur n'aime pas (= dislikes)
+    case -1 :
+        Sauce.updateOne(
+            { _id: sauceId }, 
+            {
+                $push : { usersDisliked: userId },
+                $inc : { dislikes: +1 }
+            }
+        )  
+        .then(() => res.status(200).json({message: "Je n'aime pas"}))
+        .catch((error) => res.status(400).json({ error }));
+    
+    break;
+    }
+};
