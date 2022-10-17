@@ -13,12 +13,14 @@ const mongoose = require('mongoose');
 
 const path = require('path');
 
+require('dotenv').config();
+
 // require pour importer le routeur ( des sauces, et des users)
 const saucesRoutes = require('./routes/sauce');
 const usersRoutes = require('./routes/user');
 
 // Utilisation de la méthode 'mongoose.connect' pour se connecter à MongoDB.
-mongoose.connect('mongodb+srv://Arthur21051993:Papamaman21051993@cluster0.srnkobz.mongodb.net/?retryWrites=true&w=majority',
+mongoose.connect(process.env.MONGOOSE_PASSWORD,
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
