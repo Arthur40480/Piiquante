@@ -1,6 +1,5 @@
-// #controllers contient la logique métier qui est appliquer à chaques routes.
+// controllers contient la logique métier qui est appliquer à chaques routes.
 
-// require viens importer les models sauce.js
 const Sauce = require('../models/sauce');
 
 exports.createSauce = (req, res, next) => {
@@ -8,60 +7,54 @@ exports.createSauce = (req, res, next) => {
     /**
      * Ici on viens créer une instance de notre modèle 'sauce' en lui passant un objet 
      * Javscript contenant toutes les informations requises du corps de requête analysé.
-     * On supprime en amont le faux 'userId' envoyer par le frontend.
+     * 
      */
     delete saucesData._id;
-    delete saucesData._userId;
+    delete saucesData._userId; // On supprime en amont le faux 'userId' envoyer par le frontend.
     const sauce = new Sauce ({
-        // L'opérateur spread '...' permet de faire des copies de tous les éléments de req.body
-        ...saucesData,
+        ...saucesData,         // L'opérateur spread '...' permet de faire des copies de tous les éléments de req.body
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
     });
-    /**
-     * Méthode .save() qui permet d'enregistrer l'objet dans la base de données.
-     * Elle renvoi une Promise donc => .then() .catch() ...
-     */
-    sauce.save()
+    sauce.save()               // Méthode .save() qui permet d'enregistrer l'objet dans la base de données.
     .then(() => res.status(201).json({ message: "Sauce enregistrée !"}))
     .catch(error => res.status(400).json({error}));
 };
 
+/**
+ * Méthode updateOne() pour mettre à jour, modifier une sauce dans la base de donnée.
+ * -1er argument: l'objet de comparaison, pour savoir lequel on modifie (_id: req.params.id)
+ * -2ème argument: le nouvel objet
+ */
 exports.modifySauce = (req, res, next) => {
-    /**
-     * Méthode updateOne() pour mettre à jour, modifier une sauce
-     * dans la base de donnée.
-     * -1er argument: l'objet de comparaison, pour savoir lequel on modifie (_id: req.params.id)
-     * -2ème argument: le nouvel objet
-     */
     Sauce.updateOne(({ _id: req.params.id}, { ...req.body, _id: req.params.id}))
     .then(() => res.status(200).json({ message: ' Sauce modifiée !'}))
     .catch(error => res.status(400).json({ error }));
 };
 
-exports.deleteSauce = (req, res, next) => {
-    Sauce.deleteOne({ _id: req.params.id })
+exports.deleteSauce = (req, res, next) => { 
+    Sauce.deleteOne({ _id: req.params.id }) // Méthode deleteOne() pour supprimer une sauce dans la base de donnée.
     .then(() => res.status(200).json({ message: ' Sauce suprimée !'}))
     .catch(error => res.status(400).json({ error }));
 };
 
+/**
+ * Méthode findOne() pour trouver un seul objet, on lui passe un objet de
+ * comparaison: _id(id de l'objet): req.params.id(id du paramètre de requête)
+ */
 exports.readOneSauce = (req, res, next) => {
-    /**
-     * Méthode findOne() pour trouver un seul objet, on lui passe un objet de
-     * comparaison: _id(id de l'objet): req.params.id(id du paramètre de requête)
-     */
     Sauce.findOne({ _id: req.params.id})
     .then(oneSauce => res.status(200).json(oneSauce))
     .catch(error => res.status(400).json({error}));
 };
 
 exports.listAllSauce = (req, res, next) => {
-    //Méthode find() pour renvoyer un tableau contenan toute les sauces de la base de donnée.
-    Sauce.find()
+    Sauce.find()               //Méthode find() pour renvoyer un tableau contenant toute les sauces de la base de donnée.
     .then(sauces => res.status(201).json(sauces))
     .catch(error => res.status(400).json({error}));
 };
 
-// Like & Dislike d'une sauce
+                                                    // Partie Like & Dislike d'une sauce
+                                                    
 exports.sauceLikes = (req, res, next) => {
     let sauceId = req.params.id
     let userId = req.body.userId // La propriété req.body contient des paires clé-valeur de données soumises dans le corps de la requête.
