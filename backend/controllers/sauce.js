@@ -1,6 +1,8 @@
 // controllers contient la logique métier qui est appliquer à chaques routes.
 
 const Sauce = require('../models/sauce');
+const User = require('../models/user');
+const fs = require('fs');
 
 exports.createSauce = (req, res, next) => {
     const saucesData = JSON.parse(req.body.sauce);
@@ -25,17 +27,52 @@ exports.createSauce = (req, res, next) => {
  * -1er argument: l'objet de comparaison, pour savoir lequel on modifie (_id: req.params.id)
  * -2ème argument: le nouvel objet
  */
-exports.modifySauce = (req, res, next) => {
-    Sauce.updateOne(({ _id: req.params.id}, { ...req.body, _id: req.params.id}))
-    .then(() => res.status(200).json({ message: ' Sauce modifiée !'}))
-    .catch(error => res.status(400).json({ error }));
-};
+ exports.modifySauce = (req, res, next) => {
+    const sauceObject = req.file ? {
+        ...JSON.parse(req.body.sauce),
+        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    } : { ...req.body };
+  
+    delete sauceObject._userId;
+    Sauce.findOne({_id: req.params.id})
+        .then((sauce) => {
+            if (sauce.userId != req.auth.userId) {
+                res.status(401).json({ message : 'Non autorisé'});
+            } else {
+                Sauce.updateOne({ _id: req.params.id}, { ...sauceObject, _id: req.params.id})
+                .then(() => res.status(200).json({message : 'Sauce modifiée !'}))
+                .catch(error => res.status(401).json({ error }));
+            }
+        })
+        .catch((error) => {
+            res.status(400).json({ error });
+        });
+  };
 
-exports.deleteSauce = (req, res, next) => { 
-    Sauce.deleteOne({ _id: req.params.id }) // Méthode deleteOne() pour supprimer une sauce dans la base de donnée.
-    .then(() => res.status(200).json({ message: ' Sauce suprimée !'}))
-    .catch(error => res.status(400).json({ error }));
-};
+/**
+ * 
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ */
+ exports.deleteSauce = (req, res, next) => {
+    Sauce.findOne({ _id: req.params.id})
+        .then(sauce => {
+            if (sauce.userId != req.auth.userId) {
+                res.status(401).json({message: 'Non autorisé'});
+            } else {
+                const imageName = sauce.imageUrl.split('/images/')[1];
+                fs.unlink(`images/${imageName}`, () => {
+                    Sauce.deleteOne({_id: req.params.id})
+                        .then(() => res.status(200).json({message: 'Sauce supprimée !'}))
+                        .catch(error => res.status(401).json({ error }));
+                });
+            }
+        })
+        .catch( error => {
+            res.status(500).json({ error });
+        });
+  };
 
 /**
  * Méthode findOne() pour trouver un seul objet, on lui passe un objet de
