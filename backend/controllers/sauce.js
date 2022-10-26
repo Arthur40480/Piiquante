@@ -1,33 +1,42 @@
-// controllers contient la logique métier qui est appliquer à chaques routes.
+// Controllers contient la logique métier qui est appliquer à chaques routes.
 
-const Sauce = require('../models/sauce');
-const User = require('../models/user');
-const fs = require('fs');
+const Sauce = require('../models/sauce');   // On importe le model sauce
+const User = require('../models/user');     // On importe le model user
+const fs = require('fs');                   // On importe le module fs ( File system)
 
+/**
+ * 
+ * @param {object} req 
+ * @param {object} res 
+ * @param {function} next 
+ * Méthode .save() qui permet d'enregistrer l'objet dans la base de données.
+ * Ici on viens créer une instance de notre modèle 'sauce' en lui passant un objet 
+ * javscript contenant toutes les informations requises du corps de requête analysé.
+ */
 exports.createSauce = (req, res, next) => {
     const saucesData = JSON.parse(req.body.sauce);
-    /**
-     * Ici on viens créer une instance de notre modèle 'sauce' en lui passant un objet 
-     * Javscript contenant toutes les informations requises du corps de requête analysé.
-     * 
-     */
     delete saucesData._id;
-    delete saucesData._userId; // On supprime en amont le faux 'userId' envoyer par le frontend.
+    delete saucesData._userId;          // On supprime en amont le faux 'userId' envoyer par le frontend.
     const sauce = new Sauce ({
-        ...saucesData,         // L'opérateur spread '...' permet de faire des copies de tous les éléments de req.body
+        ...saucesData,                  // L'opérateur spread '...' permet de faire des copies de tous les éléments de req.body
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
     });
-    sauce.save()               // Méthode .save() qui permet d'enregistrer l'objet dans la base de données.
+    sauce.save()               
     .then(() => res.status(201).json({ message: "Sauce enregistrée !"}))
     .catch(error => res.status(400).json({error}));
 };
 
 /**
+ * 
+ * @param {object} req 
+ * @param {object} res 
+ * @param {function} next 
  * Méthode updateOne() pour mettre à jour, modifier une sauce dans la base de donnée.
  * -1er argument: l'objet de comparaison, pour savoir lequel on modifie (_id: req.params.id)
  * -2ème argument: le nouvel objet
  */
- exports.modifySauce = (req, res, next) => {
+exports.modifySauce = (req, res, next) => {
+    console.log(req);
     const sauceObject = req.file ? {
         ...JSON.parse(req.body.sauce),
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
@@ -51,9 +60,12 @@ exports.createSauce = (req, res, next) => {
 
 /**
  * 
- * @param {*} req 
- * @param {*} res 
- * @param {*} next 
+ * @param {object} req 
+ * @param {object} res 
+ * @param {function} next  
+ * Méthode deleteOne() pour supprimer une sauce dans la base de données.
+ * La méthode fs.unlink() est utilisée pour supprimer un fichier ou un 
+ * lien symbolique du système de fichiers.
  */
  exports.deleteSauce = (req, res, next) => {
     Sauce.findOne({ _id: req.params.id})
@@ -75,7 +87,11 @@ exports.createSauce = (req, res, next) => {
   };
 
 /**
- * Méthode findOne() pour trouver un seul objet, on lui passe un objet de
+ * 
+ * @param {object} req 
+ * @param {object} res 
+ * @param {function} next 
+ * Méthode findOne() pour trouver un seul objet dans la base de données, on lui passe un objet de
  * comparaison: _id(id de l'objet): req.params.id(id du paramètre de requête)
  */
 exports.readOneSauce = (req, res, next) => {
@@ -84,14 +100,24 @@ exports.readOneSauce = (req, res, next) => {
     .catch(error => res.status(400).json({error}));
 };
 
+/**
+ * 
+ * @param {object} res 
+ * Méthode find() pour renvoyer un tableau contenant toute les sauces de la base de données.
+ */
 exports.listAllSauce = (req, res, next) => {
-    Sauce.find()               //Méthode find() pour renvoyer un tableau contenant toute les sauces de la base de donnée.
+    Sauce.find()               
     .then(sauces => res.status(201).json(sauces))
     .catch(error => res.status(400).json({error}));
 };
 
-                                                    // Partie Like & Dislike d'une sauce
-                                                    
+// PARTIE LIKE & DISLIKES D'UNE SAUCE
+
+/**
+ * 
+ * @param {object} req 
+ * @param {object} res  
+ */
 exports.sauceLikes = (req, res, next) => {
     let sauceId = req.params.id
     let userId = req.body.userId // La propriété req.body contient des paires clé-valeur de données soumises dans le corps de la requête.

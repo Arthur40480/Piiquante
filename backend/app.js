@@ -1,4 +1,4 @@
-// #app.js = fichier qui contient l'application
+// app = fichier qui contient l'application
 
 // require pour importer le package express de node.
 const express = require('express');

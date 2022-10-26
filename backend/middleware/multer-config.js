@@ -1,4 +1,4 @@
-const multer = require('multer');
+const multer = require('multer'); // On importe le package multer de node.
 
 const MIME_TYPES = {
   'image/jpg': 'jpg',

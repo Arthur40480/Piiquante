@@ -1,5 +1,4 @@
-// require pour importer le package email validator de node.
-const emailValidator = require('email-validator');
+const emailValidator = require('email-validator');  // On importe le package email validator de node.
 
 emailValidator.validate("test@email.com"); 
 

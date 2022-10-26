@@ -1,10 +1,6 @@
-// require = C'est la commande pour importer le package mongoose.
-const mongoose = require('mongoose');
+const mongoose = require('mongoose');   // On importe le package mongoose.
 
-/**
- * On rajoute ce validateur comme plugin à notre shéma
- */
-const uniqueValidator = require('mongoose-unique-validator');
+const uniqueValidator = require('mongoose-unique-validator');  // On rajoute ce validateur comme plugin à notre shéma.
 
 /**
  * Utilisation de la fonction .Schema du package mongoose pour

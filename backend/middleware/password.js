@@ -1,5 +1,4 @@
-// require pour importer le package de password validator de node.
-const passwordValidator = require('password-validator');
+const passwordValidator = require('password-validator');    // On importe le package de password validator de node.
 
 var schema = new passwordValidator();
 
