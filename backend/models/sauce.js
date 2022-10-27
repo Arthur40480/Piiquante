@@ -24,8 +24,8 @@ const schemaSauces = mongoose.Schema({
      * Likes/Dislikes + Utilisateurs qui ont aimer ou non la sauce
      * On passe la configuration 'defaut': 0 pour commencer les likes/dislikes à 0.
      */
-    likes: { type: Number, defaut: 0 },     // nombre d'utilisateurs qui aiment (= likent) la sauce
-    dislikes: { type: Number, defaut: 0 },  //  nombre d'utilisateurs qui n'aiment pas (= dislike) la sauce
+    likes: { type: Number, default: 0 },     // nombre d'utilisateurs qui aiment (= likent) la sauce
+    dislikes: { type: Number, default: 0 },  //  nombre d'utilisateurs qui n'aiment pas (= dislike) la sauce
     usersLiked: { type: [String] },         // tableau des identifiants des utilisateurs qui ont aimé (= liked) la sauce
     usersDisliked: { type: [String] },      // tableau des identifiants des utilisateurs qui n'ont pas aimé (= disliked) la sauce
 });
