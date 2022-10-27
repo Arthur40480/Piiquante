@@ -1,51 +1,21 @@
 # Piiquante
 
-Project 6 of the Web Developer path Openclassrooms.
+Projet n°6 de la formation Developpeur web Openclassrooms
+Construisez une API sécurisée pour une application d'avis gastronomiques !
 
-HotTakes
+L'installation :
 
-This project was generated with Angular CLI version 13.2.4.
-Development server
+Créer un dossier Piiquante, à l'intérieur de celui-ci :
 
-Run ng serve for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
-Code scaffolding
+- Cloner le repo de l'API dans un dossier backend.
+- Cloner le repo Frontend dans une dossier frontend.
 
-Run ng generate component component-name to generate a new component. You can also use ng generate directive|pipe|service|class|guard|interface|enum|module.
-Build
+Pour lancer le backend, exécutez les commandes suivantes à l'intérieur du dossier backend, dans un terminal: 
 
-Run ng build to build the project. The build artifacts will be stored in the dist/ directory.
-Running unit tests
+> npm install
 
-Run ng test to execute the unit tests via Karma.
-Running end-to-end tests
+Pour démarrer l'API, exécutez les commandes suivantes dans un terminal :
 
-Run ng e2e to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-Further help
+> npm run start
 
-To get more help on the Angular CLI use ng help or go check out the Angular CLI Overview and Command Reference page.
-
-                            ____________________________________________
-
-HotTakes
-
-Projet 6 du parcours développeur Web : Construisez une API sécurisée pour une application d'avis gastronomiques.
-
-Ce projet a été généré avec Angular CLI version 13.2.4.
-Serveur de développement
-
-Exécuter ng serve pour un serveur de développement. Accédez à http://localhost:4200/. L'application se rechargera automatiquement si vous modifiez l'un des fichiers source.
-Échafaudage de code
-
-Exécutez ng generate component nom-composant pour générer un nouveau composant. Vous pouvez également utiliser ng generate directive|pipe|service|class|guard|interface|enum|module.
-Construire
-
-Exécutez ng build pour générer le projet. Les artefacts de construction seront stockés dans le répertoire dist/.
-Exécution de tests unitaires
-
-Exécutez ng test pour exécuter les tests unitaires via Karma.
-Exécution de tests de bout en bout
-
-Exécutez ng e2e pour exécuter les tests de bout en bout via une plateforme de votre choix. Pour utiliser cette commande, vous devez d'abord ajouter un package qui implémente des fonctionnalités de test de bout en bout.
-Aide supplémentaire
-
-Pour obtenir plus d'aide sur la CLI angulaire, utilisez ng help ou consultez la page de présentation de la CLI angulaire et de référence des commandes.
+Pour démarrer le frontend, suivez ces instructions : [frontend](https://github.com/OpenClassrooms-Student-Center/Web-Developer-P6)
