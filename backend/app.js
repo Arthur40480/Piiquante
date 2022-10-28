@@ -57,6 +57,7 @@ app.use('/api/sauces', saucesRoutes);
 app.use('/api/auth', usersRoutes);
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
+
 /**
  * l'instruction export est utilisée dans les modules Javascript pour exporter 
  * les fonctions, objets ou valeurs primitives d'un module pour pouvoir être 
