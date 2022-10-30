@@ -7,6 +7,12 @@ const http = require('http');
 // require = je viens importer le fichier app.js
 const app = require('./app');
 
+/**
+ * La méthode http.createServer() crée un objet HTTP Server.
+Ont lui passe en paramètre "app"
+ */
+const server = http.createServer(app);
+
 /**fonction renvoyant un port valide qu'il soit fourni
 sous la forme d'un numéro ou d'une chaîne.*/
 const normalizePort = val => {
@@ -49,12 +55,6 @@ const errorHandler = error => {
             throw error;
     }
 };
-
-/**
- * La méthode http.createServer() crée un objet HTTP Server.
-Ont lui passe en paramètre "app"
- */
-const server = http.createServer(app);
 
 /**
  * La fonction errorHandler recherche les différentes erreurs et les gère de 
