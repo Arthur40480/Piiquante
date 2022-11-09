@@ -2,7 +2,8 @@
 
 const bcrypt = require('bcrypt');       // On importe la librairie bcrypt pour le hachage des mots de passes.
 const jwt = require('jsonwebtoken');    // On importe le package jsonwebtoken pour chiffrer des tokens
-const User = require('../models/user'); // On importe le model user 
+const User = require('../models/user'); // On importe le model user
+const dotenv = require('dotenv');       // On importe dotenv 
 
 /**
  * 
@@ -49,9 +50,9 @@ exports.login = (req, res, next) => {
                         userId: user._id,
                         token: jwt.sign( // La fonction '.sign()' de jsonwebtoken utilise une clé secrète pour chiffrer un token qui peut contenir un payload personnalisé et avoir une validité limitée.
                            { userId: user._id },    // 1er argument: payload, les données que l'on veux encodées = user._id.
-                           'RANDOM_TOKEN_SECRET',   // 2ème argument: La clé secrète pour l'encodage.
-                           { expiresIn: '72h'}      // 3ème argument: argument de configuration, on applique une expiration de 72h pour notre token.
-                        )
+                           process.env.JWT_ENCODING_KEY,   // 2ème argument: La clé secrète pour l'encodage.
+                           { expiresIn: process.env.JWT_TOKEN_EXPIRATION_TIME, }      // 3ème argument: argument de configuration, on applique une expiration de 72h pour notre token.
+                        ),
                     });
                 })
                 .catch(error => res.status(500).json({ error }));
