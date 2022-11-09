@@ -4,7 +4,7 @@ const express = require('express');                     // On importe le framewo
 const saucesCtrl = require('../controllers/sauce');     // On importe la logique métier de nos sauces.
 const multer = require('../middleware/multer-config');  // On importe le middleware où se trouve le package multer.
 const auth = require('../middleware/auth');             // On importe le middleware auth.
-
+const checkSauce = require('../middleware/check-sauce');
 /**
  * La méthodeexpress.Router() permet de créer des routeurs séparés 
  * pour chaque route principale de notre application, ont y enregistre 
@@ -12,9 +12,9 @@ const auth = require('../middleware/auth');             // On importe le middlew
  */
 const router = express.Router();
 
-router.post('/', auth, multer, saucesCtrl.createSauce); // Route POST pour enregistrer une sauce.
+router.post('/', auth, multer, checkSauce, saucesCtrl.createSauce); // Route POST pour enregistrer une sauce.
 // Les ":" de la route permettent de dire à Express que cette partie de la route est dynamique. On y à accès dans "req.params.id". 
-router.put('/:id', auth, multer, saucesCtrl.modifySauce); // Route PUT pour modifier une sauce.
+router.put('/:id', auth, multer, checkSauce, saucesCtrl.modifySauce); // Route PUT pour modifier une sauce.
 router.delete('/:id', auth, saucesCtrl.deleteSauce); // Route DELETE pour supprimer une sauce.
 router.get('/:id', auth, saucesCtrl.readOneSauce); // Route GET pour la récupérer une sauce. 
 router.get('/', auth, saucesCtrl.listAllSauce); // Route GET pour récupérer toutes les sauces.
