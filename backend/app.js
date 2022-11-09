@@ -13,11 +13,10 @@ const limiter = rateLimit({
 	standardHeaders: true, // Retourne la limitation dans le header `RateLimit-*`
 	legacyHeaders: false, // désactive les headers `X-RateLimit-*`
 });
+
 const app = express();
 
 require('dotenv').config();
-
-
 
 // require pour importer le routeur ( des sauces, et des users)
 const saucesRoutes = require('./routes/sauce');
